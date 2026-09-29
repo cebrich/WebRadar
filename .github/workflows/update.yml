@@ -1,0 +1,24 @@
+name: update heli
+on:
+  schedule:
+    - cron: '*/2 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: descargar helicopteros
+        run: |
+          curl -s -A "HeliAlert-personal-cebrich" "https://api.adsb.lol/v2/point/40.323/-3.864/15" -o heli.json
+          echo "descargado:"
+          head -c 200 heli.json
+      - name: guardar
+        run: |
+          git config user.name "helibot"
+          git config user.email "helibot@local"
+          git add heli.json
+          git commit -m "update heli" || echo "sin cambios"
+          git push
