@@ -3,22 +3,66 @@ on:
   schedule:
     - cron: '*/2 * * * *'
   workflow_dispatch:
-permissions:
-  contents: write
+
 jobs:
-  fetch:
+  update:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: descargar helicopteros
+
+      - name: Fetch adsb.lol
         run: |
-          curl -s -A "HeliAlert-personal-cebrich" "https://api.adsb.lol/v2/point/40.323/-3.864/15" -o heli.json
-          echo "descargado:"
-          head -c 200 heli.json
-      - name: guardar
+          curl -s --max-time 25 -H "User-Agent: Mozilla/5.0" "https://api.adsb.lol/v2/lat/40.323/lon/-3.864/dist/10" -o heli.json
+          ls -lh heli.json
+
+      - name: Check heli and notify Telegram
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          git config user.name "helibot"
-          git config user.email "helibot@local"
-          git add heli.json
-          git commit -m "update heli" || echo "sin cambios"
+          python3 << 'PY'
+          import json, math, os, urllib.request, urllib.parse
+          LAT0, LON0 = 40.323, -3.864
+          def hav(lat1,lon1,lat2,lon2):
+              R=6371
+              p1,p2=math.radians(lat1),math.radians(lat2)
+              dp=math.radians(lat2-lat1); dl=math.radians(lon2-lon1)
+              a=math.sin(dp/2)**2+math.cos(p1)*math.cos(p2)*math.sin(dl/2)**2
+              return 2*R*math.asin(math.sqrt(a))
+          try:
+              data=json.load(open('heli.json'))
+              ac=data.get('aircraft',[])
+          except: ac=[]
+          alert=[]
+          for a in ac:
+              cat=str(a.get('category','')).upper()
+              if cat.startswith('H') or 'HELI' in str(a.get('type','')).upper():
+                  lat=a.get('lat'); lon=a.get('lon')
+                  if lat and lon:
+                      d=hav(LAT0,LON0,lat,lon)
+                      if d<=5:
+                          alert.append((a.get('flight','').strip() or a.get('hex',''), d, a.get('alt_baro')))
+          # anti-spam: solo avisa una vez por hex
+          seen=set()
+          if os.path.exists('.last_alert'):
+              seen=set(open('.last_alert').read().split())
+          new=[x for x in alert if x[0] not in seen]
+          if new:
+              for flight,d,alt in new:
+                  msg=f"🚁 Heli a {d:.1f}km - {flight} - alt {alt}m"
+                  url=f"https://api.telegram.org/bot{os.environ['TELEGRAM_TOKEN']}/sendMessage"
+                  data=urllib.parse.urlencode({'chat_id':os.environ['TELEGRAM_CHAT_ID'],'text':msg}).encode()
+                  urllib.request.urlopen(url,data,timeout=15)
+              open('.last_alert','w').write(' '.join([x[0] for x in alert]))
+          print(f"alertas enviadas: {len(new)}")
+          PY
+
+      - name: Commit heli.json
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add heli.json.last_alert || true
+          git diff --cached --quiet || git commit -m "update heli"
           git push
