@@ -1,9 +1,11 @@
 {"ac":[
-{"hex":"406015","type":"adsb_icao","flight":"EZY76NK ","r":"G-EZTK","t":"A320","alt_baro":10450,"alt_geom":11250,"gs":266.9,"ias":218,"tas":258,"mach":0.400,"wd":219,"ws":29,"oat":1,"tat":10,"track":108.57,"track_rate":0.00,"roll":0.00,"mag_heading":114.26,"true_heading":114.83,"baro_rate":-960,"geom_rate":-960,"squawk":"2267","emergency":"none","category":"A3","nav_qnh":1020.0,"nav_altitude_mcp":6016,"nav_heading":0.00,"lat":40.305222,"lon":-3.994202,"nic":8,"rc":186,"seen_pos":0.000,"version":2,"nic_baro":1,"nac_p":9,"nac_v":1,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":144007,"seen":0.0,"rssi":-5.1,"dst":6.073,"dir":260.1}
+{"hex":"4d2229","type":"adsb_icao","flight":"RYR59YY ","r":"9H-QCI","t":"B738","alt_baro":13075,"alt_geom":13975,"gs":372.1,"ias":288,"tas":354,"mach":0.548,"wd":232,"ws":37,"oat":2,"tat":18,"track":110.29,"track_rate":0.06,"roll":2.46,"mag_heading":114.96,"true_heading":115.50,"baro_rate":-832,"geom_rate":-832,"squawk":"2272","emergency":"none","category":"A3","nav_qnh":1020.0,"nav_altitude_mcp":6016,"nav_altitude_fms":10000,"nav_heading":120.94,"lat":40.353249,"lon":-4.078487,"nic":7,"rc":371,"seen_pos":0.016,"version":2,"nic_baro":1,"nac_p":8,"nac_v":1,"sil":3,"sil_type":"perhour","gva":1,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":140783,"seen":0.0,"rssi":-5.4,"dst":9.961,"dir":280.6},
+{"hex":"345692","type":"adsb_icao","flight":"IBE04AC ","r":"EC-MXY","t":"A20N","alt_baro":11275,"alt_geom":12075,"gs":296.2,"ias":248,"tas":296,"mach":0.460,"wd":214,"ws":19,"oat":-0,"tat":11,"track":121.33,"track_rate":-0.47,"roll":-6.68,"mag_heading":124.28,"true_heading":124.86,"baro_rate":-1920,"geom_rate":-1920,"squawk":"3436","emergency":"none","category":"A3","nav_qnh":1020.0,"nav_altitude_mcp":6016,"nav_heading":0.00,"lat":40.372428,"lon":-3.946714,"nic":8,"rc":186,"seen_pos":0.000,"version":2,"nic_baro":1,"nac_p":9,"nac_v":1,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":23767,"seen":0.0,"rssi":-9.8,"dst":4.805,"dir":308.1},
+{"hex":"345218","type":"adsb_icao","flight":"AEA82PV ","r":"EC-MKL","t":"B738","alt_baro":9825,"alt_geom":10575,"gs":300.7,"ias":254,"tas":296,"mach":0.456,"wd":218,"ws":31,"oat":4,"tat":16,"track":118.61,"track_rate":0.00,"roll":0.18,"mag_heading":123.93,"true_heading":124.54,"baro_rate":-448,"geom_rate":-480,"squawk":"3347","emergency":"none","category":"A3","nav_qnh":1020.0,"nav_altitude_mcp":6016,"nav_heading":123.05,"lat":40.316286,"lon":-3.807637,"nic":7,"rc":371,"seen_pos":0.167,"version":2,"nic_baro":1,"nac_p":8,"nac_v":1,"sil":3,"sil_type":"perhour","gva":1,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":32468,"seen":0.0,"rssi":-5.6,"dst":2.606,"dir":98.9}
 ]
 ,"msg": "No error"
-,"now": 1790799825500
-,"total": 1
-,"ctime": 1790799825500
+,"now": 1790800965001
+,"total": 3
+,"ctime": 1790800965001
 ,"ptime": 0
 }
