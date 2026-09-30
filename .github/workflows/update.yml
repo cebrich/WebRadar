@@ -1,14 +1,15 @@
 name: update heli
+
 on:
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch:
+  push:
+    branches: [ main ]
 
 jobs:
   update:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -16,6 +17,9 @@ jobs:
         run: |
           curl -s --max-time 25 -H "User-Agent: Mozilla/5.0" "https://api.adsb.lol/v2/lat/40.323/lon/-3.864/dist/10" -o heli.json
           ls -lh heli.json
+          cat heli.json
+          echo "---"
+          wc -c heli.json
 
       - name: Check heli and notify Telegram
         env:
@@ -23,46 +27,84 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           python3 << 'PY'
-          import json, math, os, urllib.request, urllib.parse
-          LAT0, LON0 = 40.323, -3.864
-          def hav(lat1,lon1,lat2,lon2):
-              R=6371
-              p1,p2=math.radians(lat1),math.radians(lat2)
-              dp=math.radians(lat2-lat1); dl=math.radians(lon2-lon1)
-              a=math.sin(dp/2)**2+math.cos(p1)*math.cos(p2)*math.sin(dl/2)**2
+          import json, os, math, urllib.request, urllib.parse
+
+          LAT0 = 40.323
+          LON0 = -3.864
+          UMBRAL_KM = 5.0
+
+          token = os.environ.get("TELEGRAM_TOKEN", "")
+          chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
+
+          def haversine(lat1, lon1, lat2, lon2):
+              R = 6371.0
+              p1 = math.radians(lat1); p2 = math.radians(lat2)
+              dphi = math.radians(lat2 - lat1)
+              dl = math.radians(lon2 - lon1)
+              a = math.sin(dphi/2)**2 + math.cos(p1)*math.cos(p2)*math.sin(dl/2)**2
               return 2*R*math.asin(math.sqrt(a))
+
+          def send(msg):
+              if not token or not chat_id:
+                  print("sin secrets, no envio")
+                  return
+              data = urllib.parse.urlencode({"chat_id": chat_id, "text": msg}).encode()
+              try:
+                  urllib.request.urlopen(f"https://api.telegram.org/bot{token}/sendMessage", data, timeout=15).read()
+                  print("enviado:", msg[:80])
+              except Exception as e:
+                  print("error telegram:", e)
+
+          # cargar ultimo aviso para no repetir
+          last = set()
+          if os.path.exists(".last_alert"):
+              try:
+                  last = set(json.load(open(".last_alert")))
+              except:
+                  last = set()
+
           try:
-              data=json.load(open('heli.json'))
-              ac=data.get('aircraft',[])
-          except: ac=[]
-          alert=[]
-          for a in ac:
-              cat=str(a.get('category','')).upper()
-              if cat.startswith('H') or 'HELI' in str(a.get('type','')).upper():
-                  lat=a.get('lat'); lon=a.get('lon')
-                  if lat and lon:
-                      d=hav(LAT0,LON0,lat,lon)
-                      if d<=5:
-                          alert.append((a.get('flight','').strip() or a.get('hex',''), d, a.get('alt_baro')))
-          # anti-spam: solo avisa una vez por hex
-          seen=set()
-          if os.path.exists('.last_alert'):
-              seen=set(open('.last_alert').read().split())
-          new=[x for x in alert if x[0] not in seen]
-          if new:
-              for flight,d,alt in new:
-                  msg=f"🚁 Heli a {d:.1f}km - {flight} - alt {alt}m"
-                  url=f"https://api.telegram.org/bot{os.environ['TELEGRAM_TOKEN']}/sendMessage"
-                  data=urllib.parse.urlencode({'chat_id':os.environ['TELEGRAM_CHAT_ID'],'text':msg}).encode()
-                  urllib.request.urlopen(url,data,timeout=15)
-              open('.last_alert','w').write(' '.join([x[0] for x in alert]))
-          print(f"alertas enviadas: {len(new)}")
+              j = json.load(open("heli.json"))
+          except Exception as e:
+              print("heli.json no valido:", e)
+              print("alertas enviadas: 0")
+              raise SystemExit(0)
+
+          ac_list = j.get("ac", []) or []
+          print(f"aviones en json: {len(ac_list)}")
+
+          nuevas = []
+          for ac in ac_list:
+              lat = ac.get("lat"); lon = ac.get("lon")
+              if lat is None or lon is None:
+                  continue
+              d = haversine(LAT0, LON0, lat, lon)
+              hexid = ac.get("hex", "????")
+              call = ac.get("flight", "").strip() or ac.get("r", "") or hexid
+              # filtro heli: si tiene type que contenga H o es helicoptero, si no hay dato lo avisamos igual
+              # para no filtrar de más, avisamos de todo lo que esté <5km
+              if d <= UMBRAL_KM and hexid not in last:
+                  nuevas.append((hexid, call, d))
+                  last.add(hexid)
+
+          print(f"candidatos <{UMBRAL_KM}km: {len(nuevas)}")
+          for hexid, call, d in nuevas:
+              send(f"🚁 Heli a {d:.1f} km - {call} ({hexid})")
+
+          # guardar last (limitamos a 100)
+          try:
+              json.dump(list(last)[-100:], open(".last_alert", "w"))
+          except Exception as e:
+              print("no pude guardar .last_alert:", e)
+
+          print(f"alertas enviadas: {len(nuevas)}")
           PY
 
       - name: Commit heli.json
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add heli.json.last_alert || true
+          git add heli.json || true
+          git add .last_alert || true
           git diff --cached --quiet || git commit -m "update heli"
           git push
