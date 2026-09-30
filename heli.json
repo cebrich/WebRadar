@@ -1,10 +1,9 @@
 {"ac":[
-{"hex":"c008b7","type":"adsb_icao","flight":"ACA834  ","r":"C-FDHU","t":"A333","alt_baro":8375,"alt_geom":9025,"gs":294.3,"ias":251,"tas":288,"mach":0.440,"wd":220,"ws":31,"oat":9,"tat":20,"track":113.43,"track_rate":0.00,"roll":-0.53,"mag_heading":119.00,"true_heading":119.62,"baro_rate":-1408,"geom_rate":-1408,"squawk":"6046","emergency":"none","category":"A5","nav_qnh":1019.2,"nav_altitude_mcp":6016,"lat":40.285080,"lon":-3.807800,"nic":8,"rc":186,"seen_pos":0.055,"version":2,"nic_baro":1,"nac_p":9,"nac_v":1,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":39060,"seen":0.1,"rssi":-5.5,"dst":3.433,"dir":131.5},
-{"hex":"343545","type":"adsb_icao","flight":"INI472  ","r":"EC-LEP","t":"C560","alt_baro":"ground","gs":0.0,"category":"A0","lat":40.367512,"lon":-3.776703,"nic":8,"rc":186,"seen_pos":43.287,"version":2,"sil_type":"perhour","mlat":[],"tisb":[],"messages":4789,"seen":43.3,"rssi":-31.0,"dst":4.801,"dir":56.2}
+{"hex":"343545","type":"adsb_icao","flight":"INI472  ","r":"EC-LEP","t":"C560","alt_baro":2450,"alt_geom":2400,"gs":0.7,"track":0.00,"baro_rate":1792,"squawk":"7000","emergency":"none","category":"A0","lat":40.367432,"lon":-3.776733,"nic":8,"rc":186,"seen_pos":1.235,"version":2,"nic_baro":1,"nac_p":9,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":0,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":6903,"seen":0.2,"rssi":-26.3,"dst":4.797,"dir":56.2}
 ]
 ,"msg": "No error"
-,"now": 1790749559001
-,"total": 2
-,"ctime": 1790749559001
+,"now": 1790751082001
+,"total": 1
+,"ctime": 1790751082001
 ,"ptime": 0
 }
