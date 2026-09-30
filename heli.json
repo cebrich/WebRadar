@@ -1,9 +1,8 @@
 {"ac":[
-{"hex":"39de46","type":"adsb_icao","flight":"TVF43PN ","r":"F-HXSG","t":"A20N","alt_baro":39000,"alt_geom":41000,"gs":422.1,"ias":238,"tas":440,"mach":0.772,"wd":273,"ws":34,"oat":-59,"tat":-34,"track":213.99,"track_rate":-0.16,"roll":-0.18,"mag_heading":216.91,"true_heading":217.54,"baro_rate":0,"geom_rate":32,"squawk":"7666","emergency":"none","category":"A3","nav_qnh":1013.6,"nav_altitude_mcp":39008,"nav_heading":0.00,"lat":40.099492,"lon":-3.742717,"nic":8,"rc":186,"seen_pos":0.000,"version":2,"nic_baro":1,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":90864,"seen":0.0,"rssi":-14.7,"dst":14.503,"dir":157.3}
 ]
 ,"msg": "No error"
-,"now": 1790715182002
-,"total": 1
-,"ctime": 1790715182002
+,"now": 1790742186500
+,"total": 0
+,"ctime": 1790742186500
 ,"ptime": 0
 }
