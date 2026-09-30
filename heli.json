@@ -1,9 +1,8 @@
 {"ac":[
-{"hex":"346186","type":"adsb_icao","flight":"IBE07HA ","r":"EC-NFH","t":"A20N","alt_baro":7700,"alt_geom":8350,"gs":237.1,"ias":220,"tas":250,"mach":0.384,"wd":218,"ws":20,"track":164.09,"track_rate":0.03,"roll":0.18,"mag_heading":167.34,"true_heading":167.98,"baro_rate":-768,"geom_rate":-768,"squawk":"1140","emergency":"none","category":"A3","nav_qnh":1020.0,"nav_altitude_mcp":6016,"nav_heading":0.00,"lat":40.282608,"lon":-3.760925,"nic":8,"rc":186,"seen_pos":0.000,"version":2,"nic_baro":1,"nac_p":9,"nac_v":1,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":136026,"seen":0.0,"rssi":-8.9,"dst":5.271,"dir":116.8}
 ]
 ,"msg": "No error"
-,"now": 1790803155501
-,"total": 1
-,"ctime": 1790803155501
+,"now": 1790804346000
+,"total": 0
+,"ctime": 1790804346000
 ,"ptime": 0
 }
