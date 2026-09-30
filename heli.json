@@ -1,9 +1,9 @@
 {"ac":[
-{"hex":"343545","type":"adsb_icao","flight":"INI472  ","r":"EC-LEP","t":"C560","alt_baro":7925,"alt_geom":4775,"gs":0.7,"track":0.00,"baro_rate":-64,"squawk":"7000","emergency":"none","category":"A0","lat":40.367523,"lon":-3.776672,"nic":8,"rc":186,"seen_pos":1.631,"version":2,"nic_baro":1,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":0,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":526,"seen":0.0,"rssi":-24.0,"dst":4.802,"dir":56.2}
+{"hex":"343545","type":"adsb_icao","flight":"INI472  ","r":"EC-LEP","t":"C560","alt_baro":2125,"alt_geom":2450,"gs":0.7,"track":0.00,"baro_rate":0,"squawk":"7000","emergency":"none","category":"A0","lat":40.367477,"lon":-3.776733,"nic":8,"rc":186,"seen_pos":0.620,"version":2,"nic_baro":1,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":0,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":3620,"seen":0.1,"rssi":-24.5,"dst":4.798,"dir":56.2}
 ]
 ,"msg": "No error"
-,"now": 1790746915000
+,"now": 1790747922500
 ,"total": 1
-,"ctime": 1790746915000
+,"ctime": 1790747922500
 ,"ptime": 0
 }
