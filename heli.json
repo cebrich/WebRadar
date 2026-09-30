@@ -1,8 +1,10 @@
 {"ac":[
+{"hex":"71011e","type":"adsb_icao","flight":"SVA062  ","r":"HZ-ARE","t":"B789","alt_baro":36000,"alt_geom":37800,"gs":520.5,"ias":283,"tas":492,"mach":0.848,"wd":226,"ws":51,"oat":-51,"tat":-20,"track":102.09,"track_rate":0.00,"roll":-0.18,"mag_heading":106.52,"true_heading":107.05,"baro_rate":224,"geom_rate":-128,"squawk":"3534","emergency":"none","category":"A5","nav_qnh":1012.8,"nav_altitude_mcp":36000,"nav_heading":106.88,"nav_modes":["autopilot","vnav","lnav","tcas"],"lat":40.318940,"lon":-4.077426,"nic":8,"rc":186,"seen_pos":0.016,"version":2,"nic_baro":1,"nac_p":9,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":36826,"seen":0.0,"rssi":-19.2,"dst":9.751,"dir":268.6},
+{"hex":"344481","type":"adsb_icao","flight":"IBE04LC ","r":"EC-LXQ","t":"A320","alt_baro":10350,"alt_geom":11150,"gs":311.1,"ias":251,"tas":296,"mach":0.456,"wd":237,"ws":32,"oat":4,"tat":16,"track":112.69,"track_rate":0.00,"roll":0.18,"mag_heading":117.25,"true_heading":117.85,"baro_rate":-1216,"geom_rate":-1248,"squawk":"3402","emergency":"none","category":"A3","nav_qnh":1019.2,"nav_altitude_mcp":6016,"lat":40.296595,"lon":-3.847524,"nic":8,"rc":186,"seen_pos":0.261,"version":2,"nic_baro":1,"nac_p":9,"nac_v":1,"sil":3,"sil_type":"perhour","gva":2,"sda":3,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":38597,"seen":0.3,"rssi":-4.8,"dst":1.757,"dir":154.5}
 ]
 ,"msg": "No error"
-,"now": 1790744382000
-,"total": 0
-,"ctime": 1790744382000
+,"now": 1790745743501
+,"total": 2
+,"ctime": 1790745743501
 ,"ptime": 0
 }
