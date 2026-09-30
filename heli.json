@@ -1,11 +1,11 @@
 {"ac":[
-{"hex":"347651","type":"adsb_icao","flight":"ECOFF   ","r":"EC-OFF","t":"P208","alt_baro":2500,"alt_geom":3000,"gs":77.3,"track":229.72,"geom_rate":192,"squawk":"7256","emergency":"none","category":"A1","lat":40.312934,"lon":-4.002519,"nic":9,"rc":75,"seen_pos":0.000,"version":2,"nic_baro":0,"nac_p":11,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":4214,"seen":0.0,"rssi":-26.2,"dst":6.303,"dir":265.0},
-{"hex":"34554f","type":"adsb_icao","flight":"FSMK3E  ","r":"EC-HOM","t":"P28A","alt_baro":2850,"alt_geom":3225,"gs":81.0,"ias":91,"mach":0.144,"track":245.97,"mag_heading":239.24,"true_heading":239.85,"baro_rate":0,"squawk":"7271","emergency":"none","category":"A1","lat":40.359906,"lon":-3.840970,"nic":9,"rc":75,"seen_pos":0.333,"version":2,"nic_baro":1,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":1560,"seen":0.2,"rssi":-11.6,"dst":2.455,"dir":25.4},
-{"hex":"346154","type":"adsb_icao","flight":"FYS51AL ","r":"EC-NAL","t":"C172","gs":79.5,"track":276.50,"baro_rate":-64,"squawk":"7225","emergency":"none","category":"A1","nav_qnh":1020.0,"nav_altitude_mcp":4512,"lat":40.369354,"lon":-3.752197,"nic":9,"rc":75,"seen_pos":0.166,"version":2,"nic_baro":1,"nac_p":11,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":23692,"seen":0.2,"rssi":-2.2,"dst":5.816,"dir":61.4}
+{"hex":"348359","type":"adsb_icao","alt_baro":2100,"alt_geom":2425,"gs":55.7,"track":252.22,"geom_rate":448,"category":"A7","lat":40.232725,"lon":-4.039161,"nic":8,"rc":75,"seen_pos":6.730,"version":2,"nic_baro":1,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":13201,"seen":6.7,"rssi":-28.0,"dst":9.671,"dir":236.0},
+{"hex":"347651","type":"adsb_icao","flight":"ECOFF   ","r":"EC-OFF","t":"P208","alt_baro":2700,"alt_geom":3175,"gs":101.1,"track":45.40,"geom_rate":768,"squawk":"7256","emergency":"none","category":"A1","lat":40.272527,"lon":-3.986601,"nic":9,"rc":75,"seen_pos":1.266,"version":2,"nic_baro":0,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":7388,"seen":0.1,"rssi":-23.5,"dst":6.370,"dir":241.7},
+{"hex":"347692","type":"adsb_icao","flight":"AEA051  ","r":"EC-OFP","t":"B789","alt_baro":13375,"alt_geom":14250,"gs":305.4,"ias":263,"tas":326,"mach":0.504,"wd":260,"ws":21,"oat":2,"tat":16,"track":280.76,"track_rate":0.00,"roll":0.35,"mag_heading":278.79,"true_heading":279.41,"baro_rate":1152,"geom_rate":1152,"squawk":"2601","emergency":"none","category":"A5","nav_qnh":1012.8,"nav_altitude_mcp":20000,"nav_heading":277.73,"nav_modes":["autopilot","vnav","lnav","tcas"],"lat":40.253208,"lon":-3.814690,"nic":8,"rc":186,"seen_pos":0.078,"version":2,"nic_baro":1,"nac_p":9,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":8491,"seen":0.0,"rssi":-7.2,"dst":4.762,"dir":151.7}
 ]
 ,"msg": "No error"
-,"now": 1790777825500
+,"now": 1790779173000
 ,"total": 3
-,"ctime": 1790777825500
+,"ctime": 1790779173000
 ,"ptime": 0
 }
