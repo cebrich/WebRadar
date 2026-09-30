@@ -1,9 +1,8 @@
 {"ac":[
-{"hex":"48ea8d","type":"adsb_icao","flight":"HEY03P  ","alt_baro":2075,"alt_geom":2475,"gs":0.7,"tas":20,"wd":168,"ws":20,"track":0.00,"true_heading":167.70,"baro_rate":0,"geom_rate":0,"squawk":"3204","emergency":"none","category":"A1","nav_qnh":1018.4,"nav_heading":2.81,"lat":40.367477,"lon":-3.776794,"nic":0,"rc":0,"seen_pos":0.604,"version":2,"nic_baro":1,"nac_p":0,"nac_v":1,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":3729,"seen":0.6,"rssi":-25.4,"dst":4.796,"dir":56.2}
 ]
 ,"msg": "No error"
-,"now": 1790782048501
-,"total": 1
-,"ctime": 1790782048501
+,"now": 1790783427000
+,"total": 0
+,"ctime": 1790783427000
 ,"ptime": 0
 }
