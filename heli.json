@@ -1,9 +1,8 @@
 {"ac":[
-{"hex":"347206","type":"adsb_icao","flight":"IBE07GF ","r":"EC-NSC","t":"A359","alt_baro":10575,"alt_geom":11325,"gs":291.5,"ias":248,"tas":294,"mach":0.452,"wd":213,"ws":20,"oat":5,"tat":17,"track":133.05,"track_rate":-1.53,"roll":-22.68,"mag_heading":139.22,"true_heading":139.83,"baro_rate":-1472,"geom_rate":-1376,"squawk":"2257","emergency":"none","category":"A5","nav_qnh":1020.0,"nav_altitude_mcp":6016,"nav_heading":137.81,"lat":40.400299,"lon":-3.838562,"nic":8,"rc":186,"seen_pos":0.028,"version":2,"nic_baro":1,"nac_p":11,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":112451,"seen":0.0,"rssi":-13.6,"dst":4.789,"dir":14.1}
 ]
 ,"msg": "No error"
-,"now": 1790797677513
-,"total": 1
-,"ctime": 1790797677513
+,"now": 1790798487000
+,"total": 0
+,"ctime": 1790798487000
 ,"ptime": 0
 }
