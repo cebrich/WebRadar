@@ -1,8 +1,9 @@
 {"ac":[
+{"hex":"406015","type":"adsb_icao","flight":"EZY76NK ","r":"G-EZTK","t":"A320","alt_baro":10450,"alt_geom":11250,"gs":266.9,"ias":218,"tas":258,"mach":0.400,"wd":219,"ws":29,"oat":1,"tat":10,"track":108.57,"track_rate":0.00,"roll":0.00,"mag_heading":114.26,"true_heading":114.83,"baro_rate":-960,"geom_rate":-960,"squawk":"2267","emergency":"none","category":"A3","nav_qnh":1020.0,"nav_altitude_mcp":6016,"nav_heading":0.00,"lat":40.305222,"lon":-3.994202,"nic":8,"rc":186,"seen_pos":0.000,"version":2,"nic_baro":1,"nac_p":9,"nac_v":1,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":144007,"seen":0.0,"rssi":-5.1,"dst":6.073,"dir":260.1}
 ]
 ,"msg": "No error"
-,"now": 1790798487000
-,"total": 0
-,"ctime": 1790798487000
+,"now": 1790799825500
+,"total": 1
+,"ctime": 1790799825500
 ,"ptime": 0
 }
