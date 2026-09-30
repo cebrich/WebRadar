@@ -1,9 +1,9 @@
 {"ac":[
-{"hex":"3465c9","type":"adsb_icao","flight":"VOE6CU  ","r":"EC-ISI","t":"A320","alt_baro":32000,"alt_geom":33625,"gs":448.5,"ias":260,"tas":428,"mach":0.720,"wd":226,"ws":22,"oat":-40,"tat":-16,"track":22.96,"track_rate":0.00,"roll":-0.18,"mag_heading":21.27,"true_heading":21.81,"baro_rate":0,"geom_rate":0,"squawk":"5065","emergency":"none","category":"A3","nav_qnh":1012.8,"nav_altitude_mcp":32000,"lat":40.410736,"lon":-4.028992,"nic":8,"rc":186,"seen_pos":0.201,"version":2,"nic_baro":1,"nac_p":9,"nac_v":1,"sil":3,"sil_type":"perhour","gva":2,"sda":3,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":13581,"seen":0.0,"rssi":-9.4,"dst":9.194,"dir":305.0}
+{"hex":"346186","type":"adsb_icao","flight":"IBE07HA ","r":"EC-NFH","t":"A20N","alt_baro":7700,"alt_geom":8350,"gs":237.1,"ias":220,"tas":250,"mach":0.384,"wd":218,"ws":20,"track":164.09,"track_rate":0.03,"roll":0.18,"mag_heading":167.34,"true_heading":167.98,"baro_rate":-768,"geom_rate":-768,"squawk":"1140","emergency":"none","category":"A3","nav_qnh":1020.0,"nav_altitude_mcp":6016,"nav_heading":0.00,"lat":40.282608,"lon":-3.760925,"nic":8,"rc":186,"seen_pos":0.000,"version":2,"nic_baro":1,"nac_p":9,"nac_v":1,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":136026,"seen":0.0,"rssi":-8.9,"dst":5.271,"dir":116.8}
 ]
 ,"msg": "No error"
-,"now": 1790801852502
+,"now": 1790803155501
 ,"total": 1
-,"ctime": 1790801852502
+,"ctime": 1790803155501
 ,"ptime": 0
 }
