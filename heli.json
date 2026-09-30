@@ -1,10 +1,9 @@
 {"ac":[
-{"hex":"4d24b3","type":"adsb_icao","flight":"WZZ8834 ","r":"9H-WDS","t":"A21N","alt_baro":35950,"alt_geom":37675,"gs":470.0,"ias":256,"tas":444,"mach":0.772,"wd":245,"ws":33,"oat":-55,"tat":-29,"track":26.95,"track_rate":-0.09,"roll":0.00,"mag_heading":23.73,"true_heading":24.28,"baro_rate":64,"geom_rate":32,"squawk":"4530","emergency":"none","category":"A3","nav_qnh":1012.8,"nav_altitude_mcp":36000,"lat":40.320740,"lon":-4.003540,"nic":8,"rc":186,"seen_pos":0.051,"version":2,"nic_baro":1,"nac_p":9,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":3,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":8130,"seen":0.0,"rssi":-10.4,"dst":6.375,"dir":268.8},
-{"hex":"347457","type":"adsb_icao","flight":"ANGEL02 ","r":"EC-NZK","t":"EC35","alt_baro":2200,"alt_geom":2600,"gs":59.1,"track":273.88,"baro_rate":-192,"squawk":"7256","emergency":"none","category":"A7","nav_qnh":1013.0,"nav_altitude_mcp":33008,"lat":40.369995,"lon":-3.771667,"nic":9,"rc":75,"seen_pos":0.016,"version":2,"nic_baro":1,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":35754,"seen":0.0,"rssi":-10.8,"dst":5.075,"dir":56.2}
+{"hex":"347306","type":"adsb_icao","flight":"AEA9172 ","r":"EC-NUY","t":"B738","alt_baro":17550,"alt_geom":18575,"gs":360.0,"ias":279,"tas":368,"mach":0.580,"wd":245,"ws":36,"oat":-8,"tat":10,"track":165.19,"track_rate":0.00,"roll":-0.35,"mag_heading":170.16,"true_heading":170.81,"baro_rate":2560,"geom_rate":2528,"squawk":"2645","emergency":"none","category":"A3","nav_qnh":1013.6,"nav_altitude_mcp":24000,"nav_altitude_fms":24000,"nav_heading":170.16,"lat":40.321701,"lon":-3.649658,"nic":7,"rc":371,"seen_pos":0.081,"version":2,"nic_baro":1,"nac_p":8,"nac_v":1,"sil":3,"sil_type":"perhour","gva":1,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":6260,"seen":0.0,"rssi":-11.6,"dst":9.790,"dir":90.4}
 ]
 ,"msg": "No error"
-,"now": 1790791399501
-,"total": 2
-,"ctime": 1790791399501
+,"now": 1790792849500
+,"total": 1
+,"ctime": 1790792849500
 ,"ptime": 0
 }
