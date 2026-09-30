@@ -1,11 +1,10 @@
 {"ac":[
-{"hex":"348359","type":"adsb_icao","alt_baro":2100,"alt_geom":2425,"gs":55.7,"track":252.22,"geom_rate":448,"category":"A7","lat":40.232725,"lon":-4.039161,"nic":8,"rc":75,"seen_pos":6.730,"version":2,"nic_baro":1,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":13201,"seen":6.7,"rssi":-28.0,"dst":9.671,"dir":236.0},
-{"hex":"347651","type":"adsb_icao","flight":"ECOFF   ","r":"EC-OFF","t":"P208","alt_baro":2700,"alt_geom":3175,"gs":101.1,"track":45.40,"geom_rate":768,"squawk":"7256","emergency":"none","category":"A1","lat":40.272527,"lon":-3.986601,"nic":9,"rc":75,"seen_pos":1.266,"version":2,"nic_baro":0,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":7388,"seen":0.1,"rssi":-23.5,"dst":6.370,"dir":241.7},
-{"hex":"347692","type":"adsb_icao","flight":"AEA051  ","r":"EC-OFP","t":"B789","alt_baro":13375,"alt_geom":14250,"gs":305.4,"ias":263,"tas":326,"mach":0.504,"wd":260,"ws":21,"oat":2,"tat":16,"track":280.76,"track_rate":0.00,"roll":0.35,"mag_heading":278.79,"true_heading":279.41,"baro_rate":1152,"geom_rate":1152,"squawk":"2601","emergency":"none","category":"A5","nav_qnh":1012.8,"nav_altitude_mcp":20000,"nav_heading":277.73,"nav_modes":["autopilot","vnav","lnav","tcas"],"lat":40.253208,"lon":-3.814690,"nic":8,"rc":186,"seen_pos":0.078,"version":2,"nic_baro":1,"nac_p":9,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":8491,"seen":0.0,"rssi":-7.2,"dst":4.762,"dir":151.7}
+{"hex":"34554f","type":"adsb_icao","flight":"FSMK3E  ","r":"EC-HOM","t":"P28A","alt_baro":2775,"alt_geom":3150,"gs":101.0,"ias":86,"tas":92,"mach":0.136,"wd":244,"ws":7,"track":89.43,"roll":9.67,"mag_heading":83.85,"true_heading":84.44,"baro_rate":128,"squawk":"7271","emergency":"none","category":"A1","lat":40.293686,"lon":-3.917419,"nic":9,"rc":75,"seen_pos":0.000,"version":2,"nic_baro":1,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":10917,"seen":0.0,"rssi":-13.2,"dst":3.021,"dir":234.5},
+{"hex":"348359","type":"adsb_icao","flight":"ECONE   ","alt_baro":"ground","gs":0.0,"category":"A7","lat":40.369542,"lon":-3.784197,"nic":9,"rc":75,"seen_pos":14.311,"version":2,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":19630,"seen":14.3,"rssi":-23.3,"dst":4.594,"dir":52.5}
 ]
 ,"msg": "No error"
-,"now": 1790779173000
-,"total": 3
-,"ctime": 1790779173000
+,"now": 1790780495000
+,"total": 2
+,"ctime": 1790780495000
 ,"ptime": 0
 }
