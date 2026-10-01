@@ -24,12 +24,7 @@ jobs:
           with open('heli.json') as f:
               data = json.load(f)
 
-          TIPOS = [
-            'EC35','EC45','EC55',
-            'AS50','AS55','AS65',
-            'B06','B407','R44',
-            'R66','AW139','S76'
-          ]
+          TIPOS = ['EC35','EC45','EC55','AS50','AS55','AS65','B06','B407','R44','R66','AW139','S76']
 
           def es_heli(a):
               if a.get('category') == 'A7':
@@ -51,68 +46,80 @@ jobs:
           ac = data.get('ac', [])
           helis = [a for a in ac if es_heli(a) and alt_ft(a) < 3200]
           helis_1800 = [a for a in helis if alt_ft(a) < 1800]
+          helis_3200 = [a for a in helis if 1800 <= alt_ft(a) < 3200]
 
           data['ac'] = helis
           data['total'] = len(ac)
           data['total_detected'] = len(helis)
           data['total_1800'] = len(helis_1800)
+          data['total_1800_3200'] = len(helis_3200)
           with open('heli.json','w') as f:
               json.dump(data, f)
-          print(f"helicopteros <3200: {len(helis)} de {len(ac)} (de ellos <1800: {len(helis_1800)})")
+          print(f"<3200: {len(helis)} (<1800: {len(helis_1800)}, 1800-3200: {len(helis_3200)})")
           PYEOF
 
-      - name: Avisar Telegram solo <1800 ft
+      - name: Avisar Telegram ambos grupos
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           python3 <<'PYEOF'
-          import json, os, urllib.parse, urllib.request
+          import json, os, math, urllib.parse, urllib.request
+
+          CASA_LAT, CASA_LON = 40.323, -3.864
+
+          def haversine_km(lat1, lon1, lat2, lon2):
+              R = 6371.0
+              import math as m
+              dlat = m.radians(lat2-lat1)
+              dlon = m.radians(lon2-lon1)
+              a = m.sin(dlat/2)**2 + m.cos(m.radians(lat1))*m.cos(m.radians(lat2))*m.sin(dlon/2)**2
+              return 2*R*m.asin(m.sqrt(a))
+
+          def alt_ft(a):
+              v = a.get('alt_baro')
+              if v == 'ground': return 0
+              try: return float(v)
+              except: return 99999
 
           with open('heli.json') as f:
               d = json.load(f)
 
-          def alt_ft(a):
-              v = a.get('alt_baro')
-              if v == 'ground':
-                  return 0
-              try:
-                  return float(v)
-              except:
-                  return 99999
+          g1 = [a for a in d.get('ac', []) if alt_ft(a) < 1800]
+          g2 = [a for a in d.get('ac', []) if 1800 <= alt_ft(a) < 3200]
 
-          helis_1800 = [a for a in d.get('ac', []) if alt_ft(a) < 1800]
+          def fmt(h):
+              mat = (h.get('r') or '').strip()
+              flt = (h.get('flight') or '').strip()
+              hx = (h.get('hex') or '').strip()
+              ident = mat or flt or hx or 'N/A'
+              extra = f" ({flt})" if mat and flt and mat != flt else ""
+              alt = h.get('alt_baro')
+              alt_txt = 'suelo' if alt == 'ground' else f"{alt} ft"
+              if h.get('lat') is not None and h.get('lon') is not None:
+                  dist = haversine_km(CASA_LAT, CASA_LON, h['lat'], h['lon'])
+                  dist_txt = f"{dist:.1f} km"
+              else:
+                  dist_txt = "? km"
+              return f"🚁 {ident}{extra} - {alt_txt} - {dist_txt}"
 
-          if not helis_1800:
-              print("Nada <1800, no aviso")
+          msgs = []
+          if g1:
+              msgs.append(f"🟢 {len(g1)} helicóptero(s) <1800 ft:\n" + "\n".join(fmt(h) for h in g1[:10]))
+          if g2:
+              msgs.append(f"🟡 {len(g2)} helicóptero(s) 1800-3200 ft:\n" + "\n".join(fmt(h) for h in g2[:10]))
+
+          if not msgs:
+              print("Nada que avisar")
           else:
-              lines = []
-              for h in helis_1800[:10]:
-                  mat = (h.get('r') or '').strip()  # matrícula
-                  flt = (h.get('flight') or '').strip()
-                  hexcode = (h.get('hex') or '').strip()
-                  ident = mat or flt or hexcode or 'N/A'
-                  alt = h.get('alt_baro')
-                  alt_txt = 'suelo' if alt == 'ground' else f"{alt} ft"
-                  # Si hay matrícula y además vuelo distinto, lo mostramos
-                  extra = f" ({flt})" if mat and flt and mat != flt else ""
-                  lines.append(f"🚁 {ident}{extra} - {alt_txt}")
-
-              msg = f"🚨 {len(helis_1800)} helicóptero(s) por DEBAJO de 1800 ft\n" + "\n".join(lines)
-
-              data = urllib.parse.urlencode({
-                  'chat_id': os.environ['TELEGRAM_CHAT_ID'],
-                  'text': msg
-              }).encode()
+              msg = "\n\n".join(msgs)
+              data = urllib.parse.urlencode({'chat_id': os.environ['TELEGRAM_CHAT_ID'], 'text': msg}).encode()
               try:
-                  urllib.request.urlopen(
-                      f"https://api.telegram.org/bot{os.environ['TELEGRAM_TOKEN']}/sendMessage",
-                      data=data, timeout=20
-                  )
+                  urllib.request.urlopen(f"https://api.telegram.org/bot{os.environ['TELEGRAM_TOKEN']}/sendMessage", data=data, timeout=20)
                   print("Telegram enviado")
                   print(msg)
               except Exception as e:
-                  print(f"⚠️ Telegram devolvió error: {e}")
+                  print(f"⚠️ Error Telegram: {e}")
           PYEOF
 
       - name: Commit heli.json
