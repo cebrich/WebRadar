@@ -14,7 +14,7 @@ jobs:
 
       - name: Fetch adsb.lol
         run: |
-          curl -s "https://api.adsb.lol/v2/lat/40.323/lon/-3.864/dist/10" -o heli.json
+          curl -s "https://api.adsb.lol/v2/lat/40.323/lon/-3.864/dist/500" -o heli.json
           ls -lh heli.json
 
       - name: Check heli and notify Telegram
@@ -42,22 +42,27 @@ jobs:
                   return True
               return t in TIPOS
 
-          def es_bajo(a):
+          def alt_ft(a):
               alt = a.get('alt_baro')
               if alt == 'ground':
-                  return True
+                  return 0
               try:
-                  return float(alt) < 1800
+                  return float(alt)
               except:
-                  return False
+                  return 99999
 
           ac = data.get('ac', [])
-          helis = [a for a in ac if es_heli(a) and es_bajo(a)]
+          # Solo helis por debajo de 2500 ft, fuera los altos
+          helis = [a for a in ac if es_heli(a) and alt_ft(a) < 2500]
+          helis_1800 = [a for a in helis if alt_ft(a) < 1800]
+
           data['ac'] = helis
-          data['total'] = len(helis)
+          data['total'] = len(ac)
+          data['total_detected'] = len(helis)
+          data['total_1800'] = len(helis_1800)
           with open('heli.json','w') as f:
               json.dump(data, f)
-          print(f"helicopteros bajos: {len(helis)} de {len(ac)}")
+          print(f"helicopteros <2500: {len(helis)} de {len(ac)} (de ellos <1800: {len(helis_1800)})")
           PYEOF
 
       - name: Commit heli.json
