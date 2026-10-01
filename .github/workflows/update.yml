@@ -1,78 +1,33 @@
-name: update heli
-on:
-  schedule:
-    - cron: '*/5 * * * *'
-  workflow_dispatch:
-  push:
-    branches: [ main ]
+- name: Check heli and notify Telegram
+  run: |
+    python3 << 'PY'
+    import json, os, requests
 
-permissions:
-  contents: write
+    with open('heli.json') as f:
+        data = json.load(f)
 
-jobs:
-  update:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    ac = data.get('ac', [])
 
-      - name: Fetch adsb.lol
-        run: |
-          curl -s --max-time 25 -H "User-Agent: Mozilla/5.0" "https://api.adsb.lol/v2/lat/40.323/lon/-3.864/dist/10" -o heli.json
-          ls -lh heli.json
-          cat heli.json || true
-          wc -c heli.json
+    # Filtrar SOLO helicópteros
+    helis = [a for a in ac if a.get('category') == 'A7']
 
-      - name: Check heli and notify Telegram
-        env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: |
-          python3 << 'PY'
-          import json, math, os, urllib.request, urllib.parse
-          LAT0, LON0 = 40.323, -3.864
-          def dist_km(lat1, lon1, lat2, lon2):
-              R=6371
-              p1=math.radians(lat1); p2=math.radians(lat2)
-              dp=math.radians(lat2-lat1); dl=math.radians(lon2-lon1)
-              a=math.sin(dp/2)**2+math.cos(p1)*math.cos(p2)*math.sin(dl/2)**2
-              return 2*R*math.asin(math.sqrt(a))
-          try:
-              data=json.load(open('heli.json'))
-          except Exception as e:
-              print(f"no json: {e}")
-              data={}
-          ac=data.get('ac',[]) if isinstance(data, dict) else []
-          sent=0
-          last=set()
-          if os.path.exists('.last_alert'):
-              last=set(open('.last_alert').read().split())
-          new_last=set(last)
-          token=os.environ.get('TELEGRAM_TOKEN','')
-          chat=os.environ.get('TELEGRAM_CHAT_ID','')
-          for a in ac:
-              try:
-                  lat=a.get('lat'); lon=a.get('lon')
-                  if lat is None or lon is None: continue
-                  d=dist_km(LAT0,LON0,lat,lon)
-                  if d<5:
-                      hx=a.get('hex','?')
-                      if hx in last: continue
-                      msg=f"🚁 Heli a {d:.1f} km - {a.get('flight','').strip() or hx} alt {a.get('alt_baro','?')}"
-                      url=f"https://api.telegram.org/bot{token}/sendMessage"
-                      urllib.request.urlopen(url, data=urllib.parse.urlencode({'chat_id':chat,'text':msg}).encode(), timeout=15)
-                      sent+=1
-                      new_last.add(hx)
-              except Exception as e:
-                  print(f"err: {e}")
-          open('.last_alert','w').write("\n".join(new_last))
-          print(f"alertas enviadas: {sent}")
-          PY
+    # Sobreescribir heli.json solo con helis para que tu web solo muestre helis
+    data['ac'] = helis
+    data['total'] = len(helis)
+    with open('heli.json', 'w') as f:
+        json.dump(data, f)
 
-      - name: Commit heli.json
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add heli.json || true
-          git add .last_alert || true
-          git diff --cached --quiet || git commit -m "update heli"
-          git push
+    print(f"helicópteros: {len(helis)}")
+
+    # --- tu lógica de Telegram, pero usando helis ---
+    # Ejemplo:
+    # for h in helis:
+    #     callsign = h.get('flight','').strip() or h.get('hex')
+    #     lat = h.get('lat'); lon = h.get('lon'); alt = h.get('alt_baro')
+    #     msg = f"🚁 Heli: {callsign} Alt: {alt}ft https://globe.adsb.lol/?icao={h.get('hex')}"
+    #     requests.post(f"https://api.telegram.org/bot{os.environ['TG_TOKEN']}/sendMessage",
+    #                   data={"chat_id": os.environ['TG_CHAT'], "text": msg})
+
+    # print(f"alertas enviadas: {len(helis)}")
+    print(f"alertas enviadas: 0")
+    PY
