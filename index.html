@@ -18,6 +18,7 @@ button{border:none;border-radius:16px;padding:18px;font-size:20px;font-weight:bo
 <div style="font-size:48px">✈️</div>
 <h1>HeliAlert Espejo</h1>
 <div id="pos-label" style="opacity:.7">📍 Casa: 40.323, -3.864 (GPS no activo)</div>
+<div style="margin:6px 0"><a id="maps-link" href="https://www.google.com/maps?q=40.323,-3.864" target="_blank" style="color:#6bb8ff;font-size:14px">🗺️ Ver mi posición en Maps</a></div>
 <div class="card">
 <button id="armBtn">ARMAR</button>
 <div style="opacity:.6;margin-top:8px;font-size:14px">Armado: leyendo ./heli.json cada 15 s</div>
@@ -58,6 +59,8 @@ function updatePos(pos){
     const acc = pos.coords.accuracy ? ` ±${Math.round(pos.coords.accuracy)}m` : '';
     document.getElementById('pos-label').textContent =
       `📍 Tú: ${MI_POS.lat.toFixed(5)}, ${MI_POS.lon.toFixed(5)} (GPS${acc})`;
+    document.getElementById('maps-link').href =
+      `https://www.google.com/maps?q=${MI_POS.lat.toFixed(5)},${MI_POS.lon.toFixed(5)}`;
     render();
 }
 function geoError(err){
