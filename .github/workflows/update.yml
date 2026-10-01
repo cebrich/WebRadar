@@ -27,7 +27,7 @@ jobs:
           LAT0, LON0 = 40.323, -3.864
           ALT1, ALT2 = 1800, 3200
 
-          TIPOS = ['EC35','EC45','EC55','AS50','AS55','AS65','B06','B407','R44','R66','AW139','S76']
+          TIPOS = ['EC35','G2CA','EC45','EC55','AS50','AS55','AS65','B06','B407','R44','R66','AW139','S76']
 
           def es_heli(a):
               if a.get('category') == 'A7':
