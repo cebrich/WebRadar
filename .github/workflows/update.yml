@@ -61,38 +61,4 @@ jobs:
           print(f"helicopteros <2500: {len(helis)} de {len(ac)} (de ellos <1800: {len(helis_1800)})")
           PYEOF
 
-      - name: Avisar Telegram solo <1800 ft
-        env:
-          TG_TOKEN: ${{ secrets.TG_TOKEN }}
-          TG_CHAT: ${{ secrets.TG_CHAT }}
-        run: |
-          python3 <<'PYEOF'
-          import json, os, urllib.request, urllib.parse
-          with open('heli.json') as f:
-              d = json.load(f)
-          n1800 = d.get('total_1800', 0)
-          if n1800 > 0:
-              helis = [a for a in d.get('ac', []) if (a.get('alt_baro')=='ground' or (str(a.get('alt_baro')).replace('.','',1).isdigit() and float(a.get('alt_baro')) < 1800))]
-              # coge hasta 5 para el mensaje
-              lines = []
-              for h in helis[:5]:
-                  fl = h.get('flight','').strip() or h.get('hex','N/A')
-                  alt = h.get('alt_baro','?')
-                  lines.append(f"🚁 {fl} - {alt} ft")
-              msg = f"🚨 {n1800} helicóptero(s) por DEBAJO de 1800 ft\n" + "\n".join(lines)
-              data = urllib.parse.urlencode({'chat_id': os.environ['TG_CHAT'], 'text': msg}).encode()
-              urllib.request.urlopen(f"https://api.telegram.org/bot{os.environ['TG_TOKEN']}/sendMessage", data=data)
-              print("Telegram enviado")
-          else:
-              print("Nada <1800, no aviso")
-          PYEOF
-
-      - name: Commit heli.json
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add heli.json
-          git diff --staged --quiet && echo "sin cambios" && exit 0
-          git commit -m "update heli"
-          git pull --rebase origin main
-          git push
+      - name
