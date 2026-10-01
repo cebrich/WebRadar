@@ -1,33 +1,40 @@
-- name: Check heli and notify Telegram
-  run: |
-    python3 << 'PY'
-    import json, os, requests
+name: Update heli data
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
 
-    with open('heli.json') as f:
-        data = json.load(f)
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
 
-    ac = data.get('ac', [])
+      - name: Fetch ADS-B
+        run: |
+          curl -s "https://api.adsb.lol/v2/lat/40.323/lon/-3.864/dist/10" -o heli.json
 
-    # Filtrar SOLO helicópteros
-    helis = [a for a in ac if a.get('category') == 'A7']
+      - name: Filter only helicopters
+        run: |
+          python3 << 'PY'
+          import json
+          with open('heli.json') as f:
+              data = json.load(f)
+          ac = data.get('ac', [])
+          helis = [a for a in ac if a.get('category') == 'A7']
+          data['ac'] = helis
+          data['total'] = len(helis)
+          with open('heli.json','w') as f:
+              json.dump(data, f)
+          print(f"helicópteros: {len(helis)}")
+          PY
 
-    # Sobreescribir heli.json solo con helis para que tu web solo muestre helis
-    data['ac'] = helis
-    data['total'] = len(helis)
-    with open('heli.json', 'w') as f:
-        json.dump(data, f)
-
-    print(f"helicópteros: {len(helis)}")
-
-    # --- tu lógica de Telegram, pero usando helis ---
-    # Ejemplo:
-    # for h in helis:
-    #     callsign = h.get('flight','').strip() or h.get('hex')
-    #     lat = h.get('lat'); lon = h.get('lon'); alt = h.get('alt_baro')
-    #     msg = f"🚁 Heli: {callsign} Alt: {alt}ft https://globe.adsb.lol/?icao={h.get('hex')}"
-    #     requests.post(f"https://api.telegram.org/bot{os.environ['TG_TOKEN']}/sendMessage",
-    #                   data={"chat_id": os.environ['TG_CHAT'], "text": msg})
-
-    # print(f"alertas enviadas: {len(helis)}")
-    print(f"alertas enviadas: 0")
-    PY
+      - name: Commit
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add heli.json
+          git diff --staged --quiet || git commit -m "update heli.json - helis only"
+          git push
