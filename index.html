@@ -35,18 +35,41 @@ let MI_POS = {lat:40.323, lon:-3.864, gps:false};
 let heliData = {ac:[], total:0};
 let armado = false;
 let timer = null;
+let RADIO_KM = 10;
+const ALT_1 = 1800;
+const ALT_2 = 2500;
+let lastFetchTime = null;
 
-if(navigator.geolocation){
-  navigator.geolocation.watchPosition(pos=>{
+function haceStr(){
+  if(!lastFetchTime) return "nunca";
+  const s = Math.floor((Date.now()-lastFetchTime)/1000);
+  if(s<5) return "ahora mismo";
+  if(s<60) return `hace ${s}s`;
+  const m = Math.floor(s/60);
+  if(m<60) return `hace ${m}m ${s%60}s`;
+  const h = Math.floor(m/60);
+  return `hace ${h}h ${m%60}m`;
+}
+
+function updatePos(pos){
     MI_POS.lat=pos.coords.latitude;
     MI_POS.lon=pos.coords.longitude;
     MI_POS.gps=true;
+    const acc = pos.coords.accuracy ? ` ±${Math.round(pos.coords.accuracy)}m` : '';
     document.getElementById('pos-label').textContent =
-      `📍 Tú: ${MI_POS.lat.toFixed(3)}, ${MI_POS.lon.toFixed(3)} (GPS)`;
+      `📍 Tú: ${MI_POS.lat.toFixed(5)}, ${MI_POS.lon.toFixed(5)} (GPS${acc})`;
     render();
-  }, err=>{
-    console.log("GPS denegado, uso casa",err);
-  }, {enableHighAccuracy:true});
+}
+function geoError(err){
+    document.getElementById('pos-label').textContent =
+      `📍 Casa: ${MI_POS.lat.toFixed(3)}, ${MI_POS.lon.toFixed(3)} (GPS denegado: ${err.message})`;
+    console.log("GPS error",err);
+}
+if(navigator.geolocation){
+  navigator.geolocation.getCurrentPosition(updatePos, geoError, {enableHighAccuracy:true, timeout:10000, maximumAge:0});
+  navigator.geolocation.watchPosition(updatePos, geoError, {enableHighAccuracy:true, timeout:10000, maximumAge:0});
+} else {
+  document.getElementById('pos-label').textContent = "📍 GPS no soportado, uso casa";
 }
 
 function distKm(a,b,c,d){
@@ -60,22 +83,49 @@ async function fetchHeli(){
   try{
     const r=await fetch('./heli.json?ts='+Date.now());
     heliData=await r.json();
+    lastFetchTime = Date.now();
   }catch(e){ console.log("no heli.json",e); }
   render();
 }
 
 function render(){
   const ahora=new Date();
-  const cercanos=(heliData.ac||[]).filter(h=>{
+  const all = heliData.ac||[];
+  function getAlt(h){
+    if(h.alt_baro==="ground") return 0;
+    const v = parseFloat(h.alt_baro);
+    return isNaN(v) ? 99999 : v;
+  }
+  // Detectados en radio (sin filtrar altura)
+  const enRadio = all.filter(h=>{
     if(h.lat==null||h.lon==null) return false;
-    return distKm(MI_POS.lat,MI_POS.lon,h.lat,h.lon)<10;
+    return distKm(MI_POS.lat,MI_POS.lon,h.lat,h.lon)<RADIO_KM;
   });
+  const g1800 = enRadio.filter(h=> getAlt(h) < ALT_1);
+  const g2500 = enRadio.filter(h=>{ const a=getAlt(h); return a>=ALT_1 && a<ALT_2; });
+  const visibles = [...g1800, ...g2500].sort((a,b)=>getAlt(a)-getAlt(b));
+  // Si el JSON trae contadores del workflow, úsalos como referencia
+  const totalAPI = heliData.total ?? all.length;
+
   document.getElementById('status').textContent =
-    `OK: ${cercanos.length} aeronaves, actualizado ${ahora.toLocaleTimeString()}`;
+    `OK: ${visibles.length} helicópteros (<${ALT_2} ft), actualizado ${haceStr()}`;
   document.getElementById('info').innerHTML =
-    `Aeronaves totales: ${heliData.total||0}<br>Helicópteros cercanos (10km de ti): ${cercanos.length}<br>Posición usada: ${MI_POS.gps?"GPS":"Casa"}`;
-  document.getElementById('list').innerHTML = cercanos.length?
-    cercanos.map(h=>`<div>🚁 ${h.flight||h.hex||'N/A'} - ${h.alt_baro||'?'} ft - ${distKm(MI_POS.lat,MI_POS.lon,h.lat,h.lon).toFixed(1)} km</div>`).join(''):
+    `Aeronaves en API: ${totalAPI}<br>`+
+    `Detectados en ${RADIO_KM}km: ${enRadio.length}<br>`+
+    `🟢 <${ALT_1} ft: ${g1800.length}<br>`+
+    `🟡 ${ALT_1}-${ALT_2} ft: ${g2500.length}<br>`+
+    `Posición usada: ${MI_POS.gps?"GPS":"Casa"}`;
+  function row(h){
+    const alt = h.alt_baro||'?';
+    const d = distKm(MI_POS.lat,MI_POS.lon,h.lat,h.lon).toFixed(1);
+    const dot = getAlt(h)<ALT_1 ? "🟢" : "🟡";
+    return `<div>${dot} 🚁 ${h.flight||h.hex||'N/A'} - ${alt} ft - ${d} km</div>`;
+  }
+  document.getElementById('list').innerHTML = visibles.length?
+    `<div style="text-align:left;margin-bottom:8px;opacity:.8">🟢 Menos de ${ALT_1} ft (${g1800.length})</div>`+
+    (g1800.map(row).join('')||'<div style="opacity:.6">—</div>')+
+    `<div style="text-align:left;margin:8px 0;opacity:.8">🟡 ${ALT_1}-${ALT_2} ft (${g2500.length})</div>`+
+    (g2500.map(row).join('')||'<div style="opacity:.6">—</div>') :
     "Sin helicópteros detectados en la última lectura.";
 }
 
@@ -88,6 +138,7 @@ document.getElementById('armBtn').onclick=function(){
 };
 document.getElementById('testBtn').onclick=fetchHeli;
 fetchHeli();
+setInterval(()=>{ if(lastFetchTime) render(); }, 5000);
 </script>
 </body>
 </html>
