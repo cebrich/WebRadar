@@ -1,4 +1,4 @@
-name: Update heli data
+name: update
 on:
   schedule:
     - cron: '*/5 * * * *'
@@ -12,29 +12,41 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch ADS-B
+      - name: Fetch adsb.lol
         run: |
           curl -s "https://api.adsb.lol/v2/lat/40.323/lon/-3.864/dist/10" -o heli.json
+          echo "descargado:"
+          ls -lh heli.json
 
-      - name: Filter only helicopters
+      - name: Check heli and notify Telegram
+        env:
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          TG_CHAT: ${{ secrets.TG_CHAT }}
         run: |
           python3 << 'PY'
           import json
           with open('heli.json') as f:
               data = json.load(f)
+
           ac = data.get('ac', [])
+          # Solo helicópteros (A7 = rotorcraft)
           helis = [a for a in ac if a.get('category') == 'A7']
+
           data['ac'] = helis
           data['total'] = len(helis)
-          with open('heli.json','w') as f:
+          with open('heli.json', 'w') as f:
               json.dump(data, f)
-          print(f"helicópteros: {len(helis)}")
+
+          print(f"helicopteros: {len(helis)}")
+          print(f"alertas enviadas: 0")
           PY
 
-      - name: Commit
+      - name: Commit heli.json
         run: |
           git config user.name "github-actions"
-          git config user.email "actions@github.com"
+          git config user.email "github-actions@github.com"
           git add heli.json
-          git diff --staged --quiet || git commit -m "update heli.json - helis only"
+          git diff --staged --quiet && echo "sin cambios" && exit 0
+          git commit -m "update heli"
+          git pull --rebase origin main
           git push
