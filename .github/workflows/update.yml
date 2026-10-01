@@ -25,28 +25,12 @@ jobs:
         run: |
           python3 << 'PY'
           import json
+
           with open('heli.json') as f:
               data = json.load(f)
 
-          ac = data.get('ac', [])
-          # Solo helicópteros (A7 = rotorcraft)
-          helis = [a for a in ac if a.get('category') == 'A7']
-
-          data['ac'] = helis
-          data['total'] = len(helis)
-          with open('heli.json', 'w') as f:
-              json.dump(data, f)
-
-          print(f"helicopteros: {len(helis)}")
-          print(f"alertas enviadas: 0")
-          PY
-
-      - name: Commit heli.json
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add heli.json
-          git diff --staged --quiet && echo "sin cambios" && exit 0
-          git commit -m "update heli"
-          git pull --rebase origin main
-          git push
+          def es_heli(a):
+              if a.get('category') == 'A7':
+                  return True
+              t = (a.get('t') or '').upper()
+              return t.startswith('H') or t in ('EC35','EC45','EC55
