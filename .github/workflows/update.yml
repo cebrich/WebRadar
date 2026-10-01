@@ -15,7 +15,6 @@ jobs:
       - name: Fetch adsb.lol
         run: |
           curl -s "https://api.adsb.lol/v2/lat/40.323/lon/-3.864/dist/10" -o heli.json
-          echo "descargado:"
           ls -lh heli.json
 
       - name: Check heli and notify Telegram
@@ -23,22 +22,50 @@ jobs:
           TG_TOKEN: ${{ secrets.TG_TOKEN }}
           TG_CHAT: ${{ secrets.TG_CHAT }}
         run: |
-          python3 << 'PY'
+          python3 <<'PYEOF'
           import json
-
           with open('heli.json') as f:
               data = json.load(f)
+
+          TIPOS = [
+            'EC35','EC45','EC55',
+            'AS50','AS55','AS65',
+            'B06','B407','R44',
+            'R66','AW139','S76'
+          ]
 
           def es_heli(a):
               if a.get('category') == 'A7':
                   return True
               t = (a.get('t') or '').upper()
-              return t.startswith('H') or t in ('EC35','EC45','EC55','AS50','AS55','AS65','B06','B407','R44','R66','AW139','S76')
+              if t.startswith('H'):
+                  return True
+              return t in TIPOS
 
           def es_bajo(a):
               alt = a.get('alt_baro')
               if alt == 'ground':
                   return True
               try:
-                  return float(alt) < 1800  # ~550m
-              except
+                  return float(alt) < 1800
+              except:
+                  return False
+
+          ac = data.get('ac', [])
+          helis = [a for a in ac if es_heli(a) and es_bajo(a)]
+          data['ac'] = helis
+          data['total'] = len(helis)
+          with open('heli.json','w') as f:
+              json.dump(data, f)
+          print(f"helicopteros bajos: {len(helis)} de {len(ac)}")
+          PYEOF
+
+      - name: Commit heli.json
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add heli.json
+          git diff --staged --quiet && echo "sin cambios" && exit 0
+          git commit -m "update heli"
+          git pull --rebase origin main
+          git push
