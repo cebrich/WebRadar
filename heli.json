@@ -1,12 +1,9 @@
 {"ac":[
-{"hex":"347542","type":"adsb_icao","flight":"FYS17BT ","r":"EC-OBT","t":"SIRA","alt_baro":3025,"alt_geom":3500,"gs":109.7,"ias":92,"mach":0.148,"track":251.40,"mag_heading":250.66,"true_heading":251.28,"baro_rate":-128,"squawk":"7267","emergency":"none","category":"A1","nav_qnh":1023.2,"nav_altitude_mcp":3296,"nav_modes":[],"lat":40.356368,"lon":-3.838348,"nic":0,"rc":0,"seen_pos":0.210,"version":2,"nic_baro":1,"nac_p":10,"nac_v":2,"sil":0,"sil_type":"perhour","gva":2,"sda":0,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":2741,"seen":0.2,"rssi":-6.1,"dst":2.323,"dir":30.4},
-{"hex":"3485c1","type":"adsb_icao","flight":"ECORY   ","alt_baro":"ground","gs":5.2,"mag_heading":272.81,"true_heading":273.44,"squawk":"3465","emergency":"none","category":"A1","nav_qnh":1023.0,"nav_altitude_mcp":3904,"lat":40.370121,"lon":-3.791336,"nic":9,"rc":75,"seen_pos":2.268,"version":2,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":861,"seen":2.3,"rssi":-19.8,"dst":4.362,"dir":49.6},
-{"hex":"3463cb","type":"adsb_icao","flight":"HRN125  ","r":"EC-NGX","t":"C510","alt_baro":"ground","gs":0.0,"mag_heading":160.31,"true_heading":160.94,"squawk":"5057","emergency":"none","category":"A1","lat":40.367692,"lon":-3.776488,"nic":8,"rc":186,"seen_pos":46.085,"version":2,"nac_p":11,"nac_v":2,"sil":3,"sil_type":"perhour","sda":2,"mlat":[],"tisb":[],"messages":33995,"seen":16.0,"rssi":-23.6,"dst":4.815,"dir":56.1},
-{"hex":"aa28f2","type":"adsb_icao","flight":"AAL36   ","r":"N754AN","t":"B772","alt_baro":6850,"alt_geom":7525,"gs":272.4,"ias":240,"tas":268,"mach":0.408,"wd":212,"ws":9,"oat":11,"tat":20,"track":92.95,"roll":1.58,"mag_heading":94.04,"true_heading":94.70,"baro_rate":-1536,"geom_rate":-1568,"squawk":"2352","emergency":"none","category":"A5","nav_qnh":1023.2,"nav_altitude_mcp":4000,"nav_heading":92.11,"lat":40.263682,"lon":-3.668310,"nic":8,"rc":186,"seen_pos":0.421,"version":2,"nic_baro":1,"nac_p":9,"nac_v":1,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":42541,"seen":0.2,"rssi":-16.6,"dst":9.626,"dir":111.6}
+{"hex":"347457","type":"adsb_icao","flight":"ANGEL02 ","r":"EC-NZK","t":"EC35","alt_baro":"ground","gs":0.0,"true_heading":208.12,"squawk":"7256","emergency":"none","category":"A7","lat":40.368169,"lon":-3.777690,"nic":9,"rc":75,"seen_pos":51.377,"version":2,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","sda":2,"mlat":[],"tisb":[],"messages":100,"seen":10.3,"rssi":-20.8,"dst":4.785,"dir":55.5}
 ]
 ,"msg": "No error"
-,"now": 1790838974000
-,"total": 4
-,"ctime": 1790838974000
+,"now": 1790840247000
+,"total": 1
+,"ctime": 1790840247000
 ,"ptime": 0
 }
