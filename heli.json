@@ -1,9 +1,9 @@
 {"ac":[
-{"hex":"347457","type":"adsb_icao","flight":"ANGEL02 ","r":"EC-NZK","t":"EC35","alt_baro":"ground","gs":0.0,"true_heading":208.12,"squawk":"7256","emergency":"none","category":"A7","lat":40.368169,"lon":-3.777690,"nic":9,"rc":75,"seen_pos":51.377,"version":2,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","sda":2,"mlat":[],"tisb":[],"messages":100,"seen":10.3,"rssi":-20.8,"dst":4.785,"dir":55.5}
+{"hex":"347457","type":"adsb_icao","flight":"ANGEL02 ","r":"EC-NZK","t":"EC35","alt_baro":5425,"alt_geom":6050,"gs":89.6,"track":246.30,"baro_rate":0,"squawk":"7222","emergency":"none","category":"A7","lat":40.308372,"lon":-3.864316,"nic":9,"rc":75,"seen_pos":0.402,"version":2,"nic_baro":1,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":8139,"seen":0.3,"rssi":-5.7,"dst":0.879,"dir":180.9}
 ]
 ,"msg": "No error"
-,"now": 1790840247000
+,"now": 1790841339500
 ,"total": 1
-,"ctime": 1790840247000
+,"ctime": 1790841339500
 ,"ptime": 0
 }
