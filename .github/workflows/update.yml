@@ -33,4 +33,12 @@ jobs:
               if a.get('category') == 'A7':
                   return True
               t = (a.get('t') or '').upper()
-              return t.startswith('H') or t in ('EC35','EC45','EC55
+              return t.startswith('H') or t in ('EC35','EC45','EC55','AS50','AS55','AS65','B06','B407','R44','R66','AW139','S76')
+
+          def es_bajo(a):
+              alt = a.get('alt_baro')
+              if alt == 'ground':
+                  return True
+              try:
+                  return float(alt) < 1800  # ~550m
+              except
