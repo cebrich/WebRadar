@@ -1,8 +1,9 @@
 {"ac":[
+{"hex":"3485c1","type":"adsb_icao","flight":"ECORY   ","alt_baro":"ground","alt_geom":2425,"gs":4.2,"mag_heading":236.25,"true_heading":236.88,"squawk":"0251","emergency":"none","category":"A1","nav_qnh":1023.0,"nav_altitude_mcp":4496,"nav_modes":["althold"],"lat":40.368839,"lon":-3.780945,"nic":9,"rc":75,"seen_pos":0.964,"version":2,"nac_p":10,"nac_v":2,"sil":3,"sil_type":"perhour","sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":43853,"seen":0.7,"rssi":-17.7,"dst":4.687,"dir":54.1}
 ]
 ,"msg": "No error"
-,"now": 1790834323501
-,"total": 0
-,"ctime": 1790834323501
+,"now": 1790836100002
+,"total": 1
+,"ctime": 1790836100002
 ,"ptime": 0
 }
