@@ -66,16 +66,54 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          N=$(python3 -c "import json; print(json.load(open('heli.json')).get('total_1800',0))")
-          echo "Helis <1800: $N"
-          if [ "$N" -gt 0 ]; then
-            MSG="🚨 $N helicoptero(s) por DEBAJO de 1800 ft"
-            curl -s --fail -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
-              -d chat_id="${TELEGRAM_CHAT_ID}" \
-              -d text="$MSG" || echo "⚠️ Telegram devolvió error, revisa el token/chat y que hayas dado Start al bot"
-          else
-            echo "Nada <1800, no aviso"
-          fi
+          python3 <<'PYEOF'
+          import json, os, urllib.parse, urllib.request
+
+          with open('heli.json') as f:
+              d = json.load(f)
+
+          def alt_ft(a):
+              v = a.get('alt_baro')
+              if v == 'ground':
+                  return 0
+              try:
+                  return float(v)
+              except:
+                  return 99999
+
+          helis_1800 = [a for a in d.get('ac', []) if alt_ft(a) < 1800]
+
+          if not helis_1800:
+              print("Nada <1800, no aviso")
+          else:
+              lines = []
+              for h in helis_1800[:10]:
+                  mat = (h.get('r') or '').strip()  # matrícula
+                  flt = (h.get('flight') or '').strip()
+                  hexcode = (h.get('hex') or '').strip()
+                  ident = mat or flt or hexcode or 'N/A'
+                  alt = h.get('alt_baro')
+                  alt_txt = 'suelo' if alt == 'ground' else f"{alt} ft"
+                  # Si hay matrícula y además vuelo distinto, lo mostramos
+                  extra = f" ({flt})" if mat and flt and mat != flt else ""
+                  lines.append(f"🚁 {ident}{extra} - {alt_txt}")
+
+              msg = f"🚨 {len(helis_1800)} helicóptero(s) por DEBAJO de 1800 ft\n" + "\n".join(lines)
+
+              data = urllib.parse.urlencode({
+                  'chat_id': os.environ['TELEGRAM_CHAT_ID'],
+                  'text': msg
+              }).encode()
+              try:
+                  urllib.request.urlopen(
+                      f"https://api.telegram.org/bot{os.environ['TELEGRAM_TOKEN']}/sendMessage",
+                      data=data, timeout=20
+                  )
+                  print("Telegram enviado")
+                  print(msg)
+              except Exception as e:
+                  print(f"⚠️ Telegram devolvió error: {e}")
+          PYEOF
 
       - name: Commit heli.json
         run: |
