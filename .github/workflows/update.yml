@@ -20,9 +20,12 @@ jobs:
       - name: Check heli
         run: |
           python3 <<'PYEOF'
-          import json
+          import json, math
           with open('heli.json') as f:
               data = json.load(f)
+
+          LAT0, LON0 = 40.323, -3.864
+          ALT1, ALT2 = 1800, 3200
 
           TIPOS = ['EC35','EC45','EC55','AS50','AS55','AS65','B06','B407','R44','R66','AW139','S76']
 
@@ -43,10 +46,30 @@ jobs:
               except:
                   return 99999
 
+          def dist_km(lat1, lon1, lat2, lon2):
+              R = 6371.0
+              import math
+              dlat = math.radians(lat2-lat1)
+              dlon = math.radians(lon2-lon1)
+              h = math.sin(dlat/2)**2 + math.cos(math.radians(lat1))*math.cos(math.radians(lat2))*math.sin(dlon/2)**2
+              return 2*R*math.asin(math.sqrt(h))
+
           ac = data.get('ac', [])
-          helis = [a for a in ac if es_heli(a) and alt_ft(a) < 3200]
-          helis_1800 = [a for a in helis if alt_ft(a) < 1800]
-          helis_3200 = [a for a in helis if 1800 <= alt_ft(a) < 3200]
+          helis = []
+          for a in ac:
+              if not es_heli(a):
+                  continue
+              if alt_ft(a) >= ALT2:
+                  continue
+              if a.get('lat') is None or a.get('lon') is None:
+                  continue
+              d = dist_km(LAT0, LON0, a['lat'], a['lon'])
+              a['_dist_km'] = round(d, 1)
+              if d < 5:  # solo menos de 5 km
+                  helis.append(a)
+
+          helis_1800 = [a for a in helis if alt_ft(a) < ALT1]
+          helis_3200 = [a for a in helis if ALT1 <= alt_ft(a) < ALT2]
 
           data['ac'] = helis
           data['total'] = len(ac)
@@ -55,26 +78,19 @@ jobs:
           data['total_1800_3200'] = len(helis_3200)
           with open('heli.json','w') as f:
               json.dump(data, f)
-          print(f"<3200: {len(helis)} (<1800: {len(helis_1800)}, 1800-3200: {len(helis_3200)})")
+          print(f"<1800: {len(helis_1800)}, 1800-3200: {len(helis_3200)} (filtrados <5km)")
           PYEOF
 
-      - name: Avisar Telegram ambos grupos
+      - name: Avisar Telegram 2 grupos
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           python3 <<'PYEOF'
-          import json, os, math, urllib.parse, urllib.request
+          import json, os, urllib.parse, urllib.request
 
-          CASA_LAT, CASA_LON = 40.323, -3.864
-
-          def haversine_km(lat1, lon1, lat2, lon2):
-              R = 6371.0
-              import math as m
-              dlat = m.radians(lat2-lat1)
-              dlon = m.radians(lon2-lon1)
-              a = m.sin(dlat/2)**2 + m.cos(m.radians(lat1))*m.cos(m.radians(lat2))*m.sin(dlon/2)**2
-              return 2*R*m.asin(m.sqrt(a))
+          with open('heli.json') as f:
+              d = json.load(f)
 
           def alt_ft(a):
               v = a.get('alt_baro')
@@ -82,37 +98,30 @@ jobs:
               try: return float(v)
               except: return 99999
 
-          with open('heli.json') as f:
-              d = json.load(f)
+          def linea(h):
+              mat = (h.get('r') or '').strip()
+              flt = (h.get('flight') or '').strip()
+              hexc = (h.get('hex') or '').strip()
+              ident = mat or flt or hexc or 'N/A'
+              extra = f" ({flt})" if mat and flt and mat != flt else ""
+              alt = h.get('alt_baro')
+              alt_txt = 'suelo' if alt == 'ground' else f"{alt} ft"
+              dist = h.get('_dist_km', '?')
+              return f"🚁 {ident}{extra} - {alt_txt} - {dist} km"
 
           g1 = [a for a in d.get('ac', []) if alt_ft(a) < 1800]
           g2 = [a for a in d.get('ac', []) if 1800 <= alt_ft(a) < 3200]
 
-          def fmt(h):
-              mat = (h.get('r') or '').strip()
-              flt = (h.get('flight') or '').strip()
-              hx = (h.get('hex') or '').strip()
-              ident = mat or flt or hx or 'N/A'
-              extra = f" ({flt})" if mat and flt and mat != flt else ""
-              alt = h.get('alt_baro')
-              alt_txt = 'suelo' if alt == 'ground' else f"{alt} ft"
-              if h.get('lat') is not None and h.get('lon') is not None:
-                  dist = haversine_km(CASA_LAT, CASA_LON, h['lat'], h['lon'])
-                  dist_txt = f"{dist:.1f} km"
-              else:
-                  dist_txt = "? km"
-              return f"🚁 {ident}{extra} - {alt_txt} - {dist_txt}"
-
           msgs = []
           if g1:
-              msgs.append(f"🟢 {len(g1)} helicóptero(s) <1800 ft:\n" + "\n".join(fmt(h) for h in g1[:10]))
+              msgs.append(f"🟢 <1800 ft ({len(g1)}):\n" + "\n".join(linea(h) for h in g1[:10]))
           if g2:
-              msgs.append(f"🟡 {len(g2)} helicóptero(s) 1800-3200 ft:\n" + "\n".join(fmt(h) for h in g2[:10]))
+              msgs.append(f"🟡 1800-3200 ft ({len(g2)}):\n" + "\n".join(linea(h) for h in g2[:10]))
 
           if not msgs:
-              print("Nada que avisar")
+              print("Nada <5km, no aviso")
           else:
-              msg = "\n\n".join(msgs)
+              msg = "🚨 Helicópteros <5km\n\n" + "\n\n".join(msgs)
               data = urllib.parse.urlencode({'chat_id': os.environ['TELEGRAM_CHAT_ID'], 'text': msg}).encode()
               try:
                   urllib.request.urlopen(f"https://api.telegram.org/bot{os.environ['TELEGRAM_TOKEN']}/sendMessage", data=data, timeout=20)
