@@ -1,8 +1,9 @@
 {"ac":[
+{"hex":"485a86","type":"adsb_icao","flight":"JAF45T  ","r":"PH-TFU","t":"B38M","alt_baro":36000,"alt_geom":37675,"gs":487.8,"ias":264,"tas":458,"mach":0.796,"wd":231,"ws":33,"oat":-55,"tat":-27,"track":24.46,"track_rate":0.00,"roll":0.53,"mag_heading":21.97,"true_heading":22.61,"baro_rate":0,"geom_rate":0,"squawk":"6474","emergency":"none","category":"A3","nav_qnh":1013.6,"nav_altitude_mcp":36000,"nav_altitude_fms":36000,"nav_heading":21.80,"lat":40.380066,"lon":-3.660645,"nic":8,"rc":186,"seen_pos":0.124,"version":2,"nic_baro":1,"nac_p":11,"nac_v":2,"sil":3,"sil_type":"perhour","gva":2,"sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":21170,"seen":0.1,"rssi":-11.1,"dst":9.897,"dir":69.7}
 ]
 ,"msg": "No error"
-,"now": 1790812847004
-,"total": 0
-,"ctime": 1790812847004
+,"now": 1790814733000
+,"total": 1
+,"ctime": 1790814733000
 ,"ptime": 0
 }
