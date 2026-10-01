@@ -49,7 +49,7 @@ jobs:
                   return 99999
 
           ac = data.get('ac', [])
-          helis = [a for a in ac if es_heli(a) and alt_ft(a) < 2500]
+          helis = [a for a in ac if es_heli(a) and alt_ft(a) < 3200]
           helis_1800 = [a for a in helis if alt_ft(a) < 1800]
 
           data['ac'] = helis
@@ -58,7 +58,7 @@ jobs:
           data['total_1800'] = len(helis_1800)
           with open('heli.json','w') as f:
               json.dump(data, f)
-          print(f"helicopteros <2500: {len(helis)} de {len(ac)} (de ellos <1800: {len(helis_1800)})")
+          print(f"helicopteros <3200: {len(helis)} de {len(ac)} (de ellos <1800: {len(helis_1800)})")
           PYEOF
 
       - name: Avisar Telegram solo <1800 ft
